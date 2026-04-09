@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Samikhsya 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin:0;
+  font-family:'Poppins', sans-serif;
+  background:#05070f;
+  color:white;
+  overflow:hidden;
+  text-align:center;
+}
+
+/* BACKGROUND */
+.bg {
+  position:fixed;
+  width:200%;
+  height:200%;
+  background: radial-gradient(circle, #ff69b4, transparent 40%),
+              radial-gradient(circle, #00c3ff, transparent 40%);
+  opacity:0.15;
+  animation: moveBg 10s linear infinite;
+}
+
+@keyframes moveBg {
+  0% { transform:translate(0,0); }
+  100% { transform:translate(-25%, -25%); }
+}
+
+/* SCREEN */
+.screen {
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  transition: opacity 1s;
+}
+
+.hidden {
+  opacity:0;
+  pointer-events:none;
+}
+
+/* CARD */
+.card {
+  background:rgba(255,255,255,0.08);
+  backdrop-filter: blur(15px);
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 0 40px rgba(255,105,180,0.3);
+}
+
+/* BUTTON */
+button {
+  margin-top:20px;
+  padding:12px 24px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(45deg,#ff69b4,#ff1493);
+  color:white;
+  font-weight:bold;
+}
+
+/* CAKE */
+.cake {
+  position:relative;
+  width:220px;
+  height:160px;
+}
+
+.layer {
+  position:absolute;
+  width:100%;
+  height:50px;
+  border-radius:10px;
+}
+
+.layer1 { background:#ffb6c1; top:0; }
+.layer2 { background:#ff69b4; top:50px; }
+.layer3 { background:#ff1493; top:100px; }
+
+.photo {
+  position:absolute;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  border:3px solid white;
+  background:url('https://i.imgur.com/ksWqIdY.png') center/cover;
+}
+
+/* CANDLES */
+.candle {
+  position:absolute;
+  width:8px;
+  height:25px;
+  background:white;
+  top:-25px;
+}
+
+.flame {
+  width:10px;
+  height:10px;
+  background:orange;
+  border-radius:50%;
+  animation:flicker .2s infinite alternate;
+}
+
+@keyframes flicker {
+  from { transform:scale(1); }
+  to { transform:scale(1.4); }
+}
+
+/* LETTER */
+.letter {
+  background:white;
+  color:black;
+  padding:20px;
+  border-radius:15px;
+  max-width:300px;
+}
+
+/* CANVAS */
+canvas {
+  position:fixed;
+  top:0;
+  left:0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+<canvas id="canvas"></canvas>
+
+<!-- AUDIO -->
+<audio id="music" loop preload="auto">
+  <source src="https://voca.ro/1f5viql1AKuE">
+</audio>
+
+<audio id="fireworkSound" preload="auto">
+  <source src="https://voca.ro/19KZAkdHOe15">
+</audio>
+
+<audio id="blowSound" preload="auto">
+  <source src="https://voca.ro/1mqiXlMgKfGg">
+</audio>
+
+<audio id="clickSound" preload="auto">
+  <source src="https://voca.ro/1mqiXlMgKfGg">
+</audio>
+
+<!-- SCREEN 1 -->
+<div class="screen" id="s1">
+  <div class="card">
+    <h1>For Samikhsya 💖</h1>
+    <button onclick="playClick(); next()">Start</button>
+  </div>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen hidden" id="s2">
+  <div class="card">
+    <h1>Happy 18th Birthday 🎉</h1>
+    <img src="https://i.imgur.com/ksWqIdY.png" width="250">
+    <button onclick="playClick(); next()">Open Gift</button>
+  </div>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="screen hidden" id="s3">
+  <div class="cake">
+    <div class="layer layer1"></div>
+    <div class="layer layer2"></div>
+    <div class="layer layer3"></div>
+
+    <div class="photo"></div>
+
+    <div class="candle" style="left:40px"><div class="flame"></div></div>
+    <div class="candle" style="left:100px"><div class="flame"></div></div>
+    <div class="candle" style="left:160px"><div class="flame"></div></div>
+  </div>
+
+  <button onclick="blow()">Blow Candles 🕯️</button>
+</div>
+
+<!-- SCREEN 4 -->
+<div class="screen hidden" id="s4">
+  <div class="letter">
+    💖 Samikhsya 💖<br><br>
+    You are my happiness,<br>
+    my world,<br>
+    and my forever ❤️
+  </div>
+</div>
+
+<script>
+let step = 1;
+
+/* NAVIGATION */
+function next(){
+  if(step === 1){
+    document.getElementById("music").play();
+  }
+
+  document.getElementById("s"+step).classList.add("hidden");
+  step++;
+
+  if(step <= 4){
+    document.getElementById("s"+step).classList.remove("hidden");
+  }
+}
+
+/* SOUND */
+function playClick(){
+  document.getElementById("clickSound").play();
+}
+
+function playFirework(){
+  let s = document.getElementById("fireworkSound");
+  s.currentTime = 0;
+  s.play();
+}
+
+function playBlow(){
+  let s = document.getElementById("blowSound");
+  s.currentTime = 0;
+  s.play();
+}
+
+/* FIREWORKS */
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let particles = [];
+
+function firework(){
+  playFirework();
+
+  let x = Math.random()*canvas.width;
+  let y = Math.random()*canvas.height/2;
+
+  for(let i=0;i<50;i++){
+    particles.push({
+      x,y,
+      vx:(Math.random()-0.5)*6,
+      vy:(Math.random()-0.5)*6,
+      life:100
+    });
+  }
+}
+
+function animate(){
+  ctx.fillStyle="rgba(0,0,0,0.2)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  for(let i=particles.length-1;i>=0;i--){
+    let p=particles[i];
+
+    p.x+=p.vx;
+    p.y+=p.vy;
+    p.vy+=0.05;
+    p.life--;
+
+    ctx.fillStyle=`hsl(${Math.random()*360},100%,60%)`;
+    ctx.fillRect(p.x,p.y,2,2);
+
+    if(p.life<=0) particles.splice(i,1);
+  }
+
+  requestAnimationFrame(animate);
+}
+
+setInterval(firework, 800);
+animate();
+
+/* BLow candles */
+function blow(){
+  playBlow();
+
+  document.querySelectorAll(".flame").forEach(f=>{
+    f.style.display="none";
+  });
+
+  next();
+}
+</script>
+
+</body>
+</html>
